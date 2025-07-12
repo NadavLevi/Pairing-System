@@ -3,6 +3,7 @@
 import argparse
 from typing import List
 
+from models.pairing_score import PairingScore
 from models.policy import ConsumerPolicy
 from models.provider import Provider
 from pairing_system.system import PairingSystem
@@ -29,13 +30,15 @@ def create_consumer_policy(
     )
 
 
-def print_pairing_results(providers: List[Provider]) -> None:
+def print_pairing_results(pairing_scores: List[PairingScore]) -> None:
     print("\n🌐 Top Matched Providers:\n" + "-" * 35)
-    for idx, provider in enumerate(providers, start=1):
-        print(f"{idx}. Address  : {provider.address}")
-        print(f"   Stake    : {provider.stake}")
-        print(f"   Location : {provider.location}")
-        print(f"   Features : {', '.join(provider.features)}\n")
+    for idx, pairing_score in enumerate(pairing_scores, start=1):
+        print(f"{idx}. Address  : {pairing_score.provider.address}")
+        print(f"   Stake     : {pairing_score.provider.stake}")
+        print(f"   Location  : {pairing_score.provider.location}")
+        print(f"   Features  : {', '.join(pairing_score.provider.features)}")
+        print(f"   Score     : {pairing_score.score:.2f}")
+        print(f"   Components: {pairing_score.components}\n")
 
 
 def parse_args():
@@ -71,15 +74,15 @@ def main():
     providers = create_sample_providers()
     policy = create_consumer_policy(args.location, args.features, args.min_stake)
 
-    system = PairingSystem()
-    best_providers = system.get_pairing_list(
-        providers, policy, strict=args.strict, max_distance_km=args.max_distance
-    )
+    system = PairingSystem(strict=args.strict, max_distance_km=args.max_distance)
+    best_pairing_scores = system.get_pairing_list(providers, policy)
 
-    if not best_providers:
-        print(f"⚠️  No matching providers found based on the given policy ({policy}).\n")
+    if not best_pairing_scores:
+        print(
+            f"⚠️  No matching pairing scores found based on the given policy ({policy}).\n"
+        )
     else:
-        print_pairing_results(best_providers)
+        print_pairing_results(best_pairing_scores)
 
 
 if __name__ == "__main__":

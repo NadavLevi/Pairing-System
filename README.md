@@ -23,30 +23,6 @@ This project implements a lightweight provider pairing and ranking system, desig
   - Ranking logic using weighted scores
   - ThreadPool-based scoring for performance
 
-## Project Structure
-
-```
-pairing_system/
-├── filters/
-│   ├── base_filter.py
-│   ├── feature_filter.py
-│   ├── location_filter.py
-│   └── stake_filter.py
-├── models/
-│   ├── provider.py
-│   └── policy.py
-├── scoring/
-│   ├── base_score.py
-│   ├── feature_score.py
-│   ├── location_score.py
-│   └── stake_score.py
-├── pairing_system/
-│   └── system.py
-├── tests/
-│   └── test_*.py
-└── main.py
-```
-
 ## Running Tests
 
 Tests are written using `pytest`.
@@ -95,14 +71,18 @@ This will search for a location far from "US" with maximum distance of 6000 KM w
 🌐 Top Matched Providers:
 -----------------------------------
 1. Address  : A
-   Stake    : 300
-   Location : US
-   Features : f1, f2, f3
+   Stake     : 100
+   Location  : US
+   Features  : feature1, feature2
+   Score     : 0.94
+   Components: {'stake_score': 0.8333333333333334, 'feature_score': 1.0, 'location_score': 1.0}
 
-2. Address  : B
-   Stake    : 250
-   Location : CA
-   Features : f1, f2
+2. Address  : E
+   Stake     : 120
+   Location  : US
+   Features  : feature1
+   Score     : 0.83
+   Components: {'stake_score': 1.0, 'feature_score': 0.5, 'location_score': 1.0}
 ```
 
 ---

@@ -36,7 +36,8 @@ def test_rank_providers_order_is_correct(providers, policy):
     system = PairingSystem()
     filtered = system.filter_providers(providers, policy)
     ranked = system.rank_providers(filtered, policy)
-    ranked_addresses = [p.address for p, _ in ranked]
+    ranked_providers = [p.provider for p in ranked]
+    ranked_addresses = [p.address for p in ranked_providers]
 
     # Score depends on stake (normalized), feature match, and location
     expected_order = ["A", "D", "E"]  # Assuming stake: A > D > E
@@ -45,7 +46,8 @@ def test_rank_providers_order_is_correct(providers, policy):
 
 def test_get_pairing_list_matches_expected(providers, policy):
     system = PairingSystem()
-    top_providers = system.get_pairing_list(providers, policy)
+    top_pairs = system.get_pairing_list(providers, policy)
+    top_providers = [p.provider for p in top_pairs]
     top_addresses = [p.address for p in top_providers]
     assert top_addresses == ["A", "D", "E"]
     assert len(top_addresses) <= 5
@@ -57,7 +59,7 @@ def test_get_pairing_list_matches_expected(providers, policy):
 def test_pairing_list_incorrect_order_expectation(providers, policy):
     system = PairingSystem()
     result = system.get_pairing_list(providers, policy)
-    assert result[0].address == "E"  # Should actually be "A"
+    assert result[0].provider.address == "E"  # Should actually be "A"
 
 
 @pytest.mark.xfail(reason="Expecting one too many providers (should be 3)")
