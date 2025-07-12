@@ -1,8 +1,8 @@
 # Pairing System
+[![codecov](https://codecov.io/gh/NadavLevi/Pairing-System/branch/main/graph/badge.svg)](https://codecov.io/gh/NadavLevi/Pairing-System)
 
 This project implements a lightweight provider pairing and ranking system, designed to match **network providers** with **consumer policies** based on location, stake, and feature capabilities.
 
----
 
 ## Features
 
@@ -22,8 +22,6 @@ This project implements a lightweight provider pairing and ranking system, desig
   - Multi-pass filtering pipeline
   - Ranking logic using weighted scores
   - ThreadPool-based scoring for performance
-
----
 
 ## Project Structure
 
@@ -49,23 +47,19 @@ pairing_system/
 └── main.py
 ```
 
----
-
-## 🧪 Running Tests
+## Running Tests
 
 Tests are written using `pytest`.
 
 ```bash
 pip install -r requirements.txt
-pytest
+PYTHONPATH=. pytest
 ```
 
 Includes:
 - Parametrized success cases
 - `xfail` scenarios for negative testing
 - Geolocation tolerance ranges
-
----
 
 ## CLI Usage
 
@@ -89,16 +83,13 @@ python main.py --location "US" \
 
 This will search for a location far from "US" with maximum distance of 6000 KM with at least both "f1" and "f2" features with at least 50 stake.
 
----
-
 ## Dependencies
 
 - `geopy` - for location scoring
 - `pytest` - for testing
+- `pytest-cov` - for coverage testing
 
----
-
-## ✨ Example Output
+## Example Output
 
 ```
 🌐 Top Matched Providers:
