@@ -2,6 +2,7 @@
 
 import argparse
 from typing import List
+
 from models.policy import ConsumerPolicy
 from models.provider import Provider
 from pairing_system.system import PairingSystem
@@ -20,11 +21,11 @@ def create_sample_providers() -> List[Provider]:
     ]
 
 
-def create_consumer_policy(location: str, features: List[str], min_stake: int) -> ConsumerPolicy:
+def create_consumer_policy(
+    location: str, features: List[str], min_stake: int
+) -> ConsumerPolicy:
     return ConsumerPolicy(
-        required_location=location,
-        required_features=features,
-        min_stake=min_stake
+        required_location=location, required_features=features, min_stake=min_stake
     )
 
 
@@ -39,11 +40,29 @@ def print_pairing_results(providers: List[Provider]) -> None:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Run Lava Provider Pairing CLI")
-    parser.add_argument("--location", type=str, default="US", help="Required location (default: US)")
-    parser.add_argument("--features", nargs="*", default=["feature1"], help="Required features (default: ['feature1'])")
-    parser.add_argument("--min-stake", type=int, default=70, help="Minimum stake required (default: 70)")
-    parser.add_argument("--strict", action="store_true", help="Use strict location filtering (default: False)")
-    parser.add_argument("--max-distance", type=int, default=2000, help="Max distance in km for flexible location filtering")
+    parser.add_argument(
+        "--location", type=str, default="US", help="Required location (default: US)"
+    )
+    parser.add_argument(
+        "--features",
+        nargs="*",
+        default=["feature1"],
+        help="Required features (default: ['feature1'])",
+    )
+    parser.add_argument(
+        "--min-stake", type=int, default=70, help="Minimum stake required (default: 70)"
+    )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Use strict location filtering (default: False)",
+    )
+    parser.add_argument(
+        "--max-distance",
+        type=int,
+        default=2000,
+        help="Max distance in km for flexible location filtering",
+    )
     return parser.parse_args()
 
 
@@ -54,12 +73,9 @@ def main():
 
     system = PairingSystem()
     best_providers = system.get_pairing_list(
-        providers,
-        policy,
-        strict=args.strict,
-        max_distance_km=args.max_distance
+        providers, policy, strict=args.strict, max_distance_km=args.max_distance
     )
-    
+
     if not best_providers:
         print(f"⚠️  No matching providers found based on the given policy ({policy}).\n")
     else:

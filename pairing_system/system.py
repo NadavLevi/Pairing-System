@@ -19,7 +19,11 @@ class PairingSystem:
         self.max_distance_km = max_distance_km
 
     def filter_providers(
-        self, providers: List[Provider], policy: ConsumerPolicy, strict: bool = True, max_distance_km: int = 2000
+        self,
+        providers: List[Provider],
+        policy: ConsumerPolicy,
+        strict: bool = True,
+        max_distance_km: int = 2000,
     ) -> List[Provider]:
         """
         Apply all filters to the provider list based on the consumer policy.
@@ -30,7 +34,11 @@ class PairingSystem:
         return providers
 
     def _score_provider(
-        self, provider: Provider, policy: ConsumerPolicy, max_stake: int, max_features: int
+        self,
+        provider: Provider,
+        policy: ConsumerPolicy,
+        max_stake: int,
+        max_features: int,
     ) -> Tuple[Provider, float]:
         """
         Compute the average score of a provider.
@@ -44,7 +52,6 @@ class PairingSystem:
         average_score = (stake_score + feature_score + location_score) / 3
         return provider, round(average_score, 4)
 
-
     def rank_providers(
         self, providers: List[Provider], policy: ConsumerPolicy
     ) -> List[Tuple[Provider, float]]:
@@ -52,20 +59,23 @@ class PairingSystem:
         Score and sort providers by their average score (descending).
         """
         max_stake = max((p.stake for p in providers), default=1)
-        max_features = max(
-            (len(p.features) for p in providers), default=1
-        )
+        max_features = max((len(p.features) for p in providers), default=1)
         with ThreadPoolExecutor() as executor:
             return sorted(
                 executor.map(
-                    lambda p: self._score_provider(p, policy, max_stake, max_features), providers
+                    lambda p: self._score_provider(p, policy, max_stake, max_features),
+                    providers,
                 ),
                 key=lambda x: x[1],
                 reverse=True,
             )
 
     def get_pairing_list(
-        self, providers: List[Provider], policy: ConsumerPolicy, strict: bool = True, max_distance_km: int = 2000
+        self,
+        providers: List[Provider],
+        policy: ConsumerPolicy,
+        strict: bool = True,
+        max_distance_km: int = 2000,
     ) -> List[Provider]:
         """
         Main entry point: returns the top 5 matching providers.

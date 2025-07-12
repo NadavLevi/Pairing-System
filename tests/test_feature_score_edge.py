@@ -1,7 +1,8 @@
 import pytest
-from scoring.feature_score import FeatureScore
+
 from models.policy import ConsumerPolicy
 from models.provider import Provider
+from scoring.feature_score import FeatureScore
 
 
 def test_feature_score_value_error():

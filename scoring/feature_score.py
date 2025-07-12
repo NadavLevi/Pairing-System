@@ -2,10 +2,6 @@ from models.policy import ConsumerPolicy
 from models.provider import Provider
 
 
-from models.provider import Provider
-from models.policy import ConsumerPolicy
-
-
 class FeatureScore:
     @staticmethod
     def score(provider: Provider, policy: ConsumerPolicy, max_features: int) -> float:

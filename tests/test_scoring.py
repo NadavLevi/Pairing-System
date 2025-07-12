@@ -44,7 +44,11 @@ def test_stake_score(stake, max_stake, expected):
         (["f1"], ["f1"], 1.0),  # exact match for required feature
         (["f1", "f2"], ["f1"], 1.0),  # required feature + bonus feature
         (["f2"], ["f1"], 0.0),  # missing required feature
-        (["f1", "f2", "f3"], ["f1"], 1.0),  # required feature + multiple bonus features (capped at 1.0)
+        (
+            ["f1", "f2", "f3"],
+            ["f1"],
+            1.0,
+        ),  # required feature + multiple bonus features (capped at 1.0)
         (["f1", "f2"], ["f1", "f2"], 1.0),  # all required features matched
         (["f1"], ["f1", "f2"], 0.0),  # partially matched required features
     ],

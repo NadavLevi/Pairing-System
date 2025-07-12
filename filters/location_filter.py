@@ -1,8 +1,9 @@
+from functools import lru_cache
 from typing import List
-from geopy.geocoders import Nominatim
+
 from geopy.distance import geodesic
 from geopy.extra.rate_limiter import RateLimiter
-from functools import lru_cache
+from geopy.geocoders import Nominatim
 
 from filters.base_filter import BaseFilter
 from models.policy import ConsumerPolicy
@@ -27,7 +28,7 @@ class LocationFilter(BaseFilter):
         providers: List[Provider],
         policy: ConsumerPolicy,
         strict: bool = True,
-        max_distance_km: float = 2000.0
+        max_distance_km: float = 2000.0,
     ) -> List[Provider]:
         """
         Filters providers based on their location.

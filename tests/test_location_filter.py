@@ -1,7 +1,8 @@
 import pytest
+
 from filters.location_filter import LocationFilter
-from models.provider import Provider
 from models.policy import ConsumerPolicy
+from models.provider import Provider
 
 
 @pytest.fixture
@@ -13,12 +14,17 @@ def providers():
     ]
 
 
-@pytest.mark.parametrize("strict,expected", [
-    (True, ["A"]),   # only exact match
-    (False, ["A", "B"]),  # close geographic match
-])
+@pytest.mark.parametrize(
+    "strict,expected",
+    [
+        (True, ["A"]),  # only exact match
+        (False, ["A", "B"]),  # close geographic match
+    ],
+)
 def test_location_filter_modes(providers, strict, expected):
-    policy = ConsumerPolicy(required_location="New York", required_features=["f1"], min_stake=10)
+    policy = ConsumerPolicy(
+        required_location="New York", required_features=["f1"], min_stake=10
+    )
     filtered = LocationFilter().filter(providers, policy, strict=strict)
     addresses = [p.address for p in filtered]
     assert sorted(addresses) == sorted(expected)
